@@ -1,6 +1,6 @@
 
 import './App.css';
-import Grid from './grid';
+import Grid from './ConwaySimulator';
 
 function App() {
   return (
