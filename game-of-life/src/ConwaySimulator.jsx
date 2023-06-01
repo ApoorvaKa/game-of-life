@@ -4,6 +4,7 @@ import Cell from './cell';
 const ConwaySimulator = () => {
   const [grid, setGrid] = useState([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
 
   const cellSize = 25; // Adjust this value as needed
   const gridRatio = 2 / 3; // Adjust the ratio as desired
@@ -98,13 +99,17 @@ const ConwaySimulator = () => {
         newGrid.push(row);
     }
     setGrid(newGrid);
-} 
+  }
+  
+  // run simulateGeneration() every 500ms and toggle it on and off
+
 
   // Render the grid of cells
   return (
     <div>
       <button onClick={simulateGeneration}>Simulate Generation</button>
       <button onClick={clearGrid}>Clear Grid</button>
+      <button onClick={console.log("Simulate Generations")}>Start/Stop</button>
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} style={{ display: 'flex' }}>
           {row.map((cell, colIndex) => (
