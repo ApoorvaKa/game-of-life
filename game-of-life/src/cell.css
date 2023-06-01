@@ -1,0 +1,15 @@
+
+.cell {
+    width: 25px;
+    height: 25px;
+    outline: 1px solid rgb(0, 0, 0);
+    display: inline-block;
+}
+
+/* Alive should be the style when node is clicked on*/
+.cell-alive {
+    background-color: rgb(0, 139, 246);
+}
+
+
+/* Path: game-of-life/src/controls.css */
