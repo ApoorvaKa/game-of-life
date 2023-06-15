@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Cell from './cell';
+import "./ConwaySimulator.css";
+import Slider from './Slider';
 
 const ConwaySimulator = () => {
   const [grid, setGrid] = useState([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
+  const [percentAlive, setPercentAlive] = useState(30);
 
   const cellSize = 25; // Adjust this value as needed
   const gridRatio = 2 / 3; // Adjust the ratio as desired
@@ -18,30 +20,49 @@ const ConwaySimulator = () => {
       initializeGrid(gridWidth, gridHeight);
     };
 
-  // Initialize the grid based on the current screen size
-  const initializeGrid = (width, height) => {
-    const newGrid = [];
-    for (let i = 0; i < height; i++) {
-      const row = [];
-      for (let j = 0; j < width; j++) {
-        row.push(Math.random() < 0.5);
+    // Initialize the grid based on the current screen size
+    const initializeGrid = (width, height) => {
+      const newGrid = [];
+      for (let i = 0; i < height; i++) {
+        const row = [];
+        for (let j = 0; j < width; j++) {
+          row.push(Math.random() < 0.35);
+        }
+        newGrid.push(row);
       }
-      newGrid.push(row);
-    }
-    setGrid(newGrid);
-  };
+      setGrid(newGrid);
+    };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [cellSize, gridRatio]);
-
+  },[cellSize, gridRatio]);
+  
+  // Toggle the state of a cell
   const handleToggleCell = (rowIndex, columnIndex) => {
     const newGrid = [...grid];
     newGrid[rowIndex][columnIndex] = !newGrid[rowIndex][columnIndex];
     setGrid(newGrid);
   }
 
+  // Clear the grid entirely
+  const clearGrid = () => {
+    const newGrid = [];
+    for (let i = 0; i < grid.length; i++) {
+        const row = [];
+        for (let j = 0; j < grid[i].length; j++) {
+            row.push(false);
+        }
+        newGrid.push(row);
+    }
+    setGrid(newGrid);
+  }
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
+  // Simulate one generation of the game
   const simulateGeneration = () => {
     const newGrid = [];
     for (let i = 0; i < grid.length; i++) {
@@ -63,6 +84,7 @@ const ConwaySimulator = () => {
     setGrid(newGrid);
   };
   
+  // Count the number of alive neighbors around a given cell
   const countAliveNeighbors = (rowIndex, colIndex) => {
     let count = 0;
     const offsets = [-1, 0, 1];
@@ -88,28 +110,14 @@ const ConwaySimulator = () => {
     return count;
   };
 
-  // Clear the grid entirely
-  const clearGrid = () => {
-    const newGrid = [];
-    for (let i = 0; i < grid.length; i++) {
-        const row = [];
-        for (let j = 0; j < grid[i].length; j++) {
-            row.push(false);
-        }
-        newGrid.push(row);
-    }
-    setGrid(newGrid);
-  }
-  
-  // run simulateGeneration() every 500ms and toggle it on and off
-
-
-  // Render the grid of cells
+  // Render the grid of cells and simulate
   return (
     <div>
-      <button onClick={simulateGeneration}>Simulate Generation</button>
-      <button onClick={clearGrid}>Clear Grid</button>
-      <button onClick={console.log("Simulate Generations")}>Start/Stop</button>
+      <div className={"centerSection"}>
+        <button className = {"button"} onClick={simulateGeneration}>Simulate Generation</button>
+        <button className = {"button"} onClick={clearGrid}>Clear Grid</button>
+        <button className = {"button"} onClick={refreshPage}>Randomize Grid</button>
+      </div>
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} style={{ display: 'flex' }}>
           {row.map((cell, colIndex) => (
@@ -124,6 +132,7 @@ const ConwaySimulator = () => {
           ))}
         </div>
       ))}
+      <Slider>{percentAlive}</Slider>  
     </div>
   );
 };
