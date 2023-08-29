@@ -29,10 +29,4 @@ The grid size and other configurations can be customized by modifying the code. 
 
 ## Credits
 
-This implementation of Conway's Game of Life was created by Apoorva Kaushik. It is inspired by the work of John Conway and the countless implementations by developers around the world.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-Feel free to modify and distribute this project as you see fit. Contributions are welcome!
+This implementation of Conway's Game of Life was created by Apoorva Kaushik. It is inspired by the work of Jo
